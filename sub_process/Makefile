@@ -1,6 +1,7 @@
 XBE_TITLE = nxdk_launch_test_subprocess
 NXDK_DIR ?= $(CURDIR)/../../nxdk
 NXDK_CXX = y
+NXDK_SDL = y
 
 DEBUG = y
 

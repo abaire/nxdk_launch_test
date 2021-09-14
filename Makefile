@@ -26,6 +26,7 @@ $(OUTPUT_DIR)/sub_process.xbe: sub_process/bin/default.xbe
 	$(VE)mkdir -p '$(dir $@)'
 	$(VE)cp '$<' '$@'
 
+.PHONY: sub_process/bin/default.xbe
 sub_process/bin/default.xbe:
 	@echo "[ BUILD    ] $@"
 	$(VE)$(MAKE) -C $(CURDIR)/sub_process $(QUIET)
