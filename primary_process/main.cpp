@@ -57,27 +57,26 @@ int main() {
 //  CHAR targetPath[MAX_PATH] = R"(D:\sub_process.xbe)";
 
   // Works.
-  CHAR targetPath[MAX_PATH] = R"(\Device\CdRom0\sub_process.xbe)";
+//  CHAR targetPath[MAX_PATH] = R"(\Device\CdRom0\sub_process.xbe)";
   // Works.
-//  CHAR targetPath[MAX_PATH] = R"(sub_process.xbe)";
+  CHAR targetPath[MAX_PATH] = R"(sub_process.xbe)";
 
   // Works.
 //  CHAR targetPath[MAX_PATH] = R"(e:\DEVKIT\boxplorer\default.xbe)";
 
+#if 1
   UCHAR launchData[sizeof(LaunchDataPage->LaunchData)] = {0};
   memset(launchData, 0xEA, 0x10);
   memset(launchData + 0x10, 0x42, 0x10);
   strcpy(reinterpret_cast<char *>(launchData + 0x20), "TEST LAUNCHER");
 
   DbgPrint("Launching subprocess '%s'", targetPath);
-
   XLaunchXBEEx(targetPath, launchData);
-
+#else
   // Works, launches the dashboard.
-//  XLaunchXBE(nullptr);
-
+  XLaunchXBE(nullptr);
+#endif
   DbgPrint("Launching failed!");
-
 
   return 0;
 }

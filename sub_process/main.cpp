@@ -68,7 +68,8 @@ int main() {
   }
   pb_show_front_screen();
 
-  for (int frame = 0; frame < 120; ++frame) {
+  const int target_frames = 60 * 60;
+  for (int frame = 0; frame < target_frames; ++frame) {
     pb_wait_for_vbl();
     pb_target_back_buffer();
     pb_reset();
@@ -89,6 +90,8 @@ int main() {
       }
     }
 
+    pb_print("\n\nSleeping before rebooting\n");
+
     pb_draw_text_screen();
     while (pb_busy())
       ;
@@ -96,11 +99,12 @@ int main() {
       ;
   }
 
+  Sleep(1 * 60 * 1000);
+
   if (pbk_started) {
     pb_kill();
   }
 
-  Sleep(2 * 60 * 1000);
   XReboot();
 
   return 0;
