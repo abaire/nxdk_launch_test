@@ -1,6 +1,7 @@
 #include <SDL.h>
 #include <hal/video.h>
 #include <hal/xbox.h>
+#include <nxdk/mount.h>
 #include <pbkit/pbkit.h>
 #include <windows.h>
 #include <xboxkrnl/xboxkrnl.h>
@@ -78,6 +79,8 @@ int main() {
 
     pb_print("LaunchDataPage at %p\n", LaunchDataPage);
     pb_print("Launch type: %d\n", launch_data_type);
+    pb_print("Launch title ID: 0x%X\n", LaunchDataPage->Header.dwTitleId);
+    pb_print("Launch flags: 0x%X\n", LaunchDataPage->Header.dwFlags);
     pb_print("LaunchData at %p\n", launch_data);
 
     if (launch_data) {
@@ -88,6 +91,20 @@ int main() {
         dump_mem(data, 16, buf, _char_buf);
         pb_print("%s\n", buf.c_str());
       }
+    }
+
+    {
+      static constexpr char drive_letters[] = {'c', 'd', 'e', 'f', 'g', 'r', 's',
+                                          't', 'u', 'v', 'x', 'y', 'z'};
+
+      std::string buf = "";
+      for (auto dl : drive_letters) {
+        buf += dl;
+        buf += ":";
+        buf += nxIsDriveMounted(dl) ? "Y " : "N ";
+      }
+      buf += "\n";
+      pb_print(buf.c_str());
     }
 
     pb_print("\n\nSleeping before rebooting\n");
